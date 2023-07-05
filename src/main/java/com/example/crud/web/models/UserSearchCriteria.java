@@ -7,6 +7,13 @@ import lombok.Setter;
 @Getter
 public class UserSearchCriteria {
 
-    private int id;
+    private Integer id;
     private String number;
+    private Boolean isActive;
+
+//    public UserSearchCriteria(int id, String number, boolean isActive) {
+//        this.id = null;
+//        this.number = null;
+//        this.isActive = null;
+//    }
 }

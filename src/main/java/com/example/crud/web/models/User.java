@@ -1,5 +1,5 @@
 package com.example.crud.web.models;
-
+import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,20 +7,26 @@ import lombok.Setter;
 @Setter
 @Getter
 public class User {
-    private int id;
+
+    private UUID id;
+    private boolean isActive;
     private String name;
     private String gender;
     private String number;
-    private String address;   // make a separate class for address
+    private Address address;
+    private long createdTime;
+
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", isActive=" + isActive +
                 ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +
                 ", number='" + number + '\'' +
-                ", address='" + address + '\'' +
+                ", address=" + address +
+                ", createdTime=" + createdTime +
                 '}';
     }
 }

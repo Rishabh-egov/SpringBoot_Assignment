@@ -1,5 +1,6 @@
 package com.example.crud.service;
 
+import com.example.crud.producer.Producer;
 import com.example.crud.repository.UserRepository;
 import com.example.crud.web.models.User;
 import com.example.crud.web.models.UserSearchCriteria;
@@ -16,8 +17,14 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-    @Autowired
     private UserRepository repository;
+    private Producer producer;
+
+    @Autowired
+    public UserService(UserRepository repository, Producer producer) {
+        this.repository = repository;
+        this.producer = producer;
+    }
 
     /**
      *
@@ -50,11 +57,8 @@ public class UserService {
         List<User> users = new ArrayList<>();
         for(int i=0;i<userList.size();i++)
         {
-            User currUser = this.repository.createUser(userList.get(i));
-            if(currUser != null)
-            {
-                users.add(currUser);
-            }
+            // Should we check the Validation here or after ??
+            this.producer.push("create",userList.get(i));
         }
         return  users;
 
@@ -82,11 +86,7 @@ public class UserService {
         List<User> users = new ArrayList<>();
         for(User user : userList )
         {
-            User currUser = this.repository.updateUser(user);
-            if(currUser != null)
-            {
-                users.add(user);
-            }
+            this.producer.push("update",user);
         }
         return  users;
     }

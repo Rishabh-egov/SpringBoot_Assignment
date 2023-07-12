@@ -2,6 +2,7 @@ package com.example.crud.service;
 
 import com.example.crud.producer.Producer;
 import com.example.crud.repository.UserRepository;
+import com.example.crud.utils.UserUtil;
 import com.example.crud.web.models.User;
 import com.example.crud.web.models.UserSearchCriteria;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,10 +21,13 @@ public class UserService {
     private UserRepository repository;
     private Producer producer;
 
+    private UserUtil util;
+
     @Autowired
-    public UserService(UserRepository repository, Producer producer) {
+    public UserService(UserRepository repository, Producer producer, UserUtil util) {
         this.repository = repository;
         this.producer = producer;
+        this.util = util;
     }
 
     /**
@@ -57,8 +61,8 @@ public class UserService {
         List<User> users = new ArrayList<>();
         for(int i=0;i<userList.size();i++)
         {
-            // Should we check the Validation here or after ??
-            this.producer.push("create",userList.get(i));
+            if(this.util.validUser(userList.get(i)))
+                this.producer.push("create",userList.get(i));
         }
         return  users;
 

@@ -82,11 +82,6 @@ public class UserRepository {
      */
     public User createUser(User user) throws JsonProcessingException {
 
-        if(!this.userUtil.validUser(user))
-        {
-            return null;
-        }
-
         try {
             user = this.userUtil.enrichUser(user);
             String addressJson = objectMapper.writeValueAsString(user.getAddress());
